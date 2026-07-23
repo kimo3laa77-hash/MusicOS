@@ -180,32 +180,39 @@ GoRouter is selected because it provides:
 ## 6. Local Database
 
 
-MusicOS uses Isar as its official local database.
+MusicOS uses Drift as its official local database.
 
 ### Selected Technology
 
-- isar
-- isar_flutter_libs
+- drift
+- drift_flutter
+- drift_dev (dev dependency)
+- sqlite3_flutter_libs
 
-### Why Isar
+### Why Drift
 
-Isar is selected because it provides:
+Drift is selected because it provides:
 
-- Excellent performance
-- Reactive queries
-- Offline-first architecture
-- Native Dart support
-- Strong Flutter integration
-- Efficient indexing
-- Scalable schema design
+- Actively maintained with a dedicated author and regular releases
+- Type-safe, compile-time verified SQL queries
+- First-class reactive queries via `.watch()` — integrates natively with Riverpod `StreamProvider`
+- Background isolate support via `NativeDatabase.createInBackground()` for UI-thread safety
+- SQLite WAL mode for concurrent reads and writes during background library scanning
+- Full relational query support (JOINs, indexes, aggregations) required for a large music library
+- Schema migrations with versioned callbacks and `SchemaVerifier` testing support
+- Cross-platform: Android, iOS, Windows, macOS, Linux, and Web (WASM)
+- Uses the same `build_runner` pipeline as Freezed and Riverpod — no tooling conflicts
 
 ### Rules
 
-- All persistent application data must be stored in Isar.
-- Business logic must never access Isar directly.
+- All persistent application data must be stored in Drift.
+- Business logic must never access Drift directly.
 - Access to the database must occur only through repositories.
-- Database models should remain separate from domain entities.
+- Database table data classes must remain separate from domain entities.
+- Freezed models serve as domain entities; Drift data classes serve as database models.
 - Schema migrations must be versioned and documented.
+- All heavy database operations must run on a background isolate.
+- Enable WAL mode for all database instances to support concurrent access.
 
 
 ---
@@ -324,7 +331,7 @@ Each technology has a specific responsibility:
 ### Rules
 
 - Sensitive information must never be stored in SharedPreferences.
-- Large data belongs in Isar or the file system.
+- Large data belongs in Drift or the file system.
 - SharedPreferences should only store lightweight configuration values.
 - File paths should always be obtained through path_provider.
 

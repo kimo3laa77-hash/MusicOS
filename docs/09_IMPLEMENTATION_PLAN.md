@@ -184,7 +184,7 @@ This phase focuses on discovering, indexing, storing, and presenting the user's 
 - Scan selected music folders.
 - Read audio metadata.
 - Extract album artwork.
-- Store library data in Isar.
+- Store library data in Drift.
 - Build the Library feature.
 - Implement Artists, Albums, Songs, Genres, and Folder views.
 - Support library sorting and filtering.

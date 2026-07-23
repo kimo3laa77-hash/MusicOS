@@ -60,7 +60,7 @@ Information in MusicOS is highly interconnected. The IA relies on contextual lin
 - **Cross-linking:** 
   - Tapping an Artist's name on a Song tile inside a Playlist Detail screen immediately pushes the Artist Detail screen onto the current navigation stack.
   - Tapping an Album cover inside the Home Dashboard pushes the Album Detail screen.
-- **Independence:** Detail screens must be capable of receiving a unique identifier (e.g., `albumId`) and fetching their own data from the Isar database, rather than relying on complex, heavy data payloads passed from the previous screen.
+- **Independence:** Detail screens must be capable of receiving a unique identifier (e.g., `albumId`) and fetching their own data from the Drift database, rather than relying on complex, heavy data payloads passed from the previous screen.
 
 ## 6. Modal Hierarchy
 Modals (specifically Bottom Sheets) are used for contextual, non-destructive actions that do not warrant a full screen change.

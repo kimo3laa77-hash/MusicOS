@@ -93,7 +93,7 @@ Objectives:
 - Configure project structure
 - Setup Riverpod
 - Configure GoRouter
-- Configure Isar
+- Configure Drift
 - Configure Dependency Injection
 - Setup Logging
 - Setup Theme

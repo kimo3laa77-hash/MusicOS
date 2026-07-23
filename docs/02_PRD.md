@@ -81,7 +81,7 @@ MusicOS is a premium, local-first music platform designed for audio enthusiasts.
 ### F-02: Library Scanner
 - **Description:** Index metadata and artwork from user-selected SAF folders.
 - **Priority:** Critical
-- **Dependencies:** Android SAF, Isar Database.
+- **Dependencies:** Android SAF, Drift Database.
 - **Acceptance Criteria:** Successfully reads massive file structures (50,000+ files) into the database. Falls back gracefully on missing tags. Updates silently when local file changes are detected.
 
 ### F-03: Queue Management
@@ -167,7 +167,7 @@ MusicOS is a premium, local-first music platform designed for audio enthusiasts.
 
 ## 13. Performance Requirements
 - **Startup Time:** < 1.0 second from cold boot to interactive UI.
-- **Search Latency:** < 50ms for complex queries on a 50,000 track library (powered by Isar).
+- **Search Latency:** < 50ms for complex queries on a 50,000 track library (powered by Drift with SQLite FTS5).
 - **Scrolling FPS:** Locked 60fps (or 120fps on supported displays) during heavy list/grid scrolling. Zero dropped frames.
 - **Artwork Loading:** < 100ms from memory cache to screen render. Zero visible pop-in for recycled list views.
 - **Database Queries:** Sub-20ms execution time. All heavy database logic must run on background isolates.
@@ -228,7 +228,7 @@ The following features **MUST** exist and be bug-free before V1.0 can ship to pr
 
 ## 19. Glossary
 - **SAF (Storage Access Framework):** Android's privacy-focused file picker API, ensuring apps only access user-approved directories.
-- **Isar:** A highly optimized NoSQL local database used for the app's internal metadata and user data.
+- **Drift:** A type-safe, SQL-based local database built on SQLite, used for the app's internal metadata and user data. Provides reactive queries, background isolate support, and robust schema migration tooling.
 - **Gapless Playback:** Sequential playback of tracks with absolutely zero milliseconds of silence injected between them.
 - **MediaSession:** The Android OS bridge that allows the lock screen, wearables, and Bluetooth devices to control the app's audio.
 - **Glassmorphism:** A UI design style utilizing frosted glass aesthetics (background blur and translucency) to create depth.

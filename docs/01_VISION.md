@@ -49,7 +49,7 @@ We believe that listening to music is an emotional experience that software shou
 
 ## 11. Proposed Solutions
 - **Modern UX/UI:** Apply strict, premium design tokens (dynamic colors, modern typography) typically reserved for venture-backed streaming apps.
-- **Isar/ObjectBox Database:** Utilize reactive, NoSQL databases designed for edge computing to ensure instant searches and low-memory overhead.
+- **Drift Database:** Utilize a reactive, type-safe SQLite database with background isolate support to ensure instant searches and low-memory overhead.
 - **Headless Audio Architecture:** Run the audio decoder and queue manager completely isolated from the UI thread to guarantee uninterrupted playback.
 
 ## 12. Competitive Advantages
@@ -102,7 +102,7 @@ MusicOS exists to solve the dissonance between local media ownership and modern 
 **Version 1.0 Includes:**
 - Fully functional local media playback (MP3, FLAC, AAC).
 - Gapless playback and strict queue management.
-- High-performance local library scanning and indexing via Isar/ObjectBox.
+- High-performance local library scanning and indexing via Drift (SQLite-backed, background isolate).
 - Core UI screens: Mini-player, Now Playing, Library (Artists, Albums, Tracks).
 - Basic settings (theme toggle, media folder selection).
 - OS integrations (lock screen controls, media notifications, Bluetooth controls).

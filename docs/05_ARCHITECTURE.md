@@ -151,7 +151,7 @@ Data Sources represent physical storage or external systems.
 
 Examples include:
 
-- Isar Database
+- Drift Database
 - File System
 - Shared Preferences
 - Secure Storage
@@ -278,7 +278,7 @@ Rules:
 - Pure Dart only
 - No Flutter imports
 - No Android imports
-- No Isar imports
+- No Drift imports
 - No UI dependencies
 
 The Domain Layer is the heart of every feature.
@@ -313,6 +313,8 @@ Rules:
 - Never expose raw database models
 - Never expose provider-specific models
 - Always return Domain Entities
+- Drift-generated data classes must never leave the Data Layer
+- Repositories must map every Drift data class into an immutable Domain Entity before returning it to the Application Layer
 
 ---
 
