@@ -1,7 +1,10 @@
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get_it/get_it.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../database/app_database.dart';
 import '../logging/app_logger.dart';
+import '../services/app_path_provider.dart';
 
 /// The application's global [GetIt] service locator.
 ///
@@ -18,9 +21,17 @@ final GetIt getIt = GetIt.instance;
 ///
 /// Dependencies must be registered before anything that consumes them:
 ///
-/// 1. **Database** — [AppDatabase] singleton (Sprint 2.2).
-/// 2. **Engines** — Audio, Metadata, Cache, Settings, etc. (Sprint 2.2+).
-/// 3. **Services** — Permission, FilePicker, Connectivity, etc. (Sprint 2.2+).
+/// 1. **Database** — [AppDatabase] singleton.
+/// 2. **Engines** — Audio, Metadata, Cache, Settings, etc. (future sprints).
+/// 3. **Services** — [AppPathProvider], [SharedPreferences],
+///    [FlutterSecureStorage].
+///
+/// ### AppLogger
+///
+/// [AppLogger] is intentionally **not** registered in GetIt.
+/// It is a static utility class initialised in [bootstrap] before the DI
+/// container is available, making registration both unnecessary and
+/// impractical. Call [AppLogger] directly from any class.
 ///
 /// ### Code generation
 ///
@@ -38,10 +49,24 @@ Future<void> configureDependencies() async {
   getIt.registerSingleton<AppDatabase>(AppDatabase());
 
   // ── 2. Engines ─────────────────────────────────────────────────────────────
-  // Engine registrations added as each engine is implemented (Sprint 2.2+).
+  // Engine registrations added as each engine is implemented (future sprints).
 
   // ── 3. Services ────────────────────────────────────────────────────────────
-  // Shared service registrations added as services are introduced.
+  // Registered in dependency order. All three are singletons — instantiated
+  // once and reused for the lifetime of the application.
+
+  // Resolves platform directories once; consumers read paths synchronously.
+  getIt.registerSingleton<AppPathProvider>(await AppPathProvider.init());
+
+  // Lightweight key-value store for non-sensitive user preferences.
+  getIt.registerSingleton<SharedPreferences>(
+    await SharedPreferences.getInstance(),
+  );
+
+  // Encrypted key-value store for sensitive data (tokens, credentials).
+  getIt.registerSingleton<FlutterSecureStorage>(
+    const FlutterSecureStorage(),
+  );
 
   AppLogger.info('Dependency injection configured');
 }
