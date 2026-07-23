@@ -1,5 +1,6 @@
 import 'package:get_it/get_it.dart';
 
+import '../database/app_database.dart';
 import '../logging/app_logger.dart';
 
 /// The application's global [GetIt] service locator.
@@ -31,7 +32,10 @@ final GetIt getIt = GetIt.instance;
 /// ```
 Future<void> configureDependencies() async {
   // ── 1. Database ────────────────────────────────────────────────────────────
-  // AppDatabase singleton registered in Sprint 2.2.
+  // [AppDatabase] is registered as a singleton so a single connection is
+  // shared across the entire application. The constructor internally calls
+  // driftDatabase(), which opens the SQLite file on a background isolate.
+  getIt.registerSingleton<AppDatabase>(AppDatabase());
 
   // ── 2. Engines ─────────────────────────────────────────────────────────────
   // Engine registrations added as each engine is implemented (Sprint 2.2+).
