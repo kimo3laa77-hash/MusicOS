@@ -3,6 +3,8 @@ import 'package:get_it/get_it.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../database/app_database.dart';
+import '../engines/engine_manager.dart';
+import '../engines/settings/settings_engine.dart';
 import '../logging/app_logger.dart';
 import '../services/app_path_provider.dart';
 
@@ -22,9 +24,12 @@ final GetIt getIt = GetIt.instance;
 /// Dependencies must be registered before anything that consumes them:
 ///
 /// 1. **Database** — [AppDatabase] singleton.
-/// 2. **Engines** — Audio, Metadata, Cache, Settings, etc. (future sprints).
+/// 2. **Engines** — [EngineManager] and engines with no service dependencies.
 /// 3. **Services** — [AppPathProvider], [SharedPreferences],
 ///    [FlutterSecureStorage].
+/// 4. **Engine–Service bindings** — Engines that depend on services from
+///    section 3 are constructed and registered here, after all services are
+///    available. Each engine is also registered with [EngineManager].
 ///
 /// ### AppLogger
 ///
@@ -49,7 +54,9 @@ Future<void> configureDependencies() async {
   getIt.registerSingleton<AppDatabase>(AppDatabase());
 
   // ── 2. Engines ─────────────────────────────────────────────────────────────
-  // Engine registrations added as each engine is implemented (future sprints).
+  // [EngineManager] is the sole orchestrator of every engine lifecycle.
+  // Registered eagerly here because it has no service dependencies.
+  getIt.registerSingleton<EngineManager>(EngineManager());
 
   // ── 3. Services ────────────────────────────────────────────────────────────
   // Registered in dependency order. All three are singletons — instantiated
@@ -67,6 +74,15 @@ Future<void> configureDependencies() async {
   getIt.registerSingleton<FlutterSecureStorage>(
     const FlutterSecureStorage(),
   );
+
+  // ── 4. Engine–Service Bindings ────────────────────────────────────────────
+  // Engines that depend on services registered in section 3 are constructed
+  // here, after all service singletons are available. Each engine is
+  // registered both in GetIt and with [EngineManager].
+
+  final settingsEngine = SettingsEngine(prefs: getIt<SharedPreferences>());
+  getIt.registerSingleton<SettingsEngine>(settingsEngine);
+  getIt<EngineManager>().register(settingsEngine);
 
   AppLogger.info('Dependency injection configured');
 }
