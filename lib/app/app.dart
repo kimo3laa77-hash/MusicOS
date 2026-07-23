@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../core/constants/app_constants.dart';
 import '../core/theme/app_theme.dart';
 import 'router/app_router.dart';
 
 /// Root application widget.
 ///
 /// Responsibilities:
-/// - Wire [MaterialApp.router] with the [appRouter].
+/// - Wire [MaterialApp.router] with the [appRouterProvider].
 /// - Apply [AppTheme.light] and [AppTheme.dark].
 /// - Default to [ThemeMode.dark] (primary MusicOS theme).
+/// - Source the application name from [AppConstants.appName].
 ///
 /// No business logic lives here. Navigation, theming, and DI are the
 /// only concerns of this widget.
@@ -21,7 +23,7 @@ class App extends ConsumerWidget {
     final router = ref.watch(appRouterProvider);
 
     return MaterialApp.router(
-      title: 'MusicOS',
+      title: AppConstants.appName,
       debugShowCheckedModeBanner: false,
       theme: AppTheme.light(),
       darkTheme: AppTheme.dark(),
@@ -30,3 +32,4 @@ class App extends ConsumerWidget {
     );
   }
 }
+

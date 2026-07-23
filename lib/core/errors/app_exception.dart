@@ -5,8 +5,7 @@
 /// - Every layer converts lower-level errors into [AppException] subtypes.
 /// - The UI receives only [AppException] subtypes — never raw [Exception] or [Error].
 ///
-/// New subtypes are added as features are implemented. Only [UnexpectedException]
-/// is declared here because no feature-specific failures exist in Sprint 1.3.
+/// New subtypes are added as features are implemented.
 sealed class AppException implements Exception {
   const AppException({required this.message, this.cause});
 
@@ -23,11 +22,20 @@ sealed class AppException implements Exception {
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
-// Generic subtype — used until feature-specific failures are introduced.
+// Infrastructure subtypes
 // ─────────────────────────────────────────────────────────────────────────────
+
+/// Thrown when the DI container, app configuration, or any other startup
+/// step fails in a predictable, diagnosable way.
+///
+/// Distinct from [UnexpectedException], which wraps unknown runtime errors.
+final class InitializationException extends AppException {
+  const InitializationException({required super.message, super.cause});
+}
 
 /// Wraps any unexpected exception that has not been mapped to a specific
 /// [AppException] subtype yet.
 final class UnexpectedException extends AppException {
   const UnexpectedException({required super.message, super.cause});
 }
+
