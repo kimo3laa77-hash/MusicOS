@@ -1,16 +1,15 @@
-# musicos
+# MusicOS
 
-A new Flutter project.
+A local-first music player built with Flutter.
 
-## Getting Started
+MusicOS is designed as a long-term software platform — not a traditional mobile application.
+It prioritizes scalability, maintainability, and an exceptional listening experience.
 
-This project is a starting point for a Flutter application.
+## Status
 
-A few resources to get you started if this is your first Flutter project:
+> 🚧 Under Development
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+## Platform
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+- Android (Version 1.0 target)
+- iOS, Windows, macOS, Linux (future)
